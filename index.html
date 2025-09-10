@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Envelope + Letter (Open/Close on Click)</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="envelope-wrapper">
+            <div class="envelope">
+                <div class="letter">
+                    <div class="text">
+                        <strong>THƯ MỜI TỐT NGHIỆP 💌.</strong>
+                        <p class="intro-text">
+                           Sau bao ngày cố gắng, cuối cùng Thư cũng sắp khép lại một hành trình để bước sang chặng đường mới 🎓.<br>
+                           Và ngày này sẽ trở nên trọn vẹn hơn rất nhiều nếu có sự hiện diện của mọi người.<br>
+                           Thư thật lòng mong mọi người sẽ đến để chia sẻ niềm vui và cùng Thư lưu giữ thật nhiều khoảnh khắc ý nghĩa.<br>
+                           Hẹn gặp mọi người nhe 😉
+                        </p>
+                        <p><b>⏰ Thời gian:</b> 15h30 - 17h30 Ngày 14/09/2025</p>
+                        <p><b>📍 Địa điểm:</b> Đại học Ngoại Thương (91 Chùa Láng, P. Láng Thượng, Q. Đống Đa)</p>
+                        <p><b>📞 Liên hệ:</b> 0886898567 (Minh Thư)</p>
+                        <div class="map-btn-wrapper">
+                           <span class="map-icon">👉</span>
+                           <a href="#" class="map-btn"> 🗺️FTU GUIDE MAP</a>
+                           <span class="map-icon">👈</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="heart"></div>
+        </div>
+    </div>
+    <audio id="bg-music" src="music.mp3"></audio>
+    <canvas id="confetti"></canvas>
+    <div id="map-overlay" class="map-overlay">
+      <span class="close-btn">&times;</span>
+      <img src="map.jpg" alt="🗺️FTU GUIDE MAP" class="map-img">
+    </div>
+   <script>
+        const envelopeWrapper = document.querySelector('.envelope-wrapper');
+        const heart = document.querySelector('.heart');
+        const music = document.getElementById('bg-music');
+
+        heart.addEventListener('click', () => {
+          envelopeWrapper.classList.toggle('flap');
+
+          if (envelopeWrapper.classList.contains('flap')) {
+            music.play();
+          } else {
+            music.pause();
+            music.currentTime = 0;
+          } 
+        });
+        const mapBtn = document.querySelector('.map-btn');
+        const mapOverlay = document.getElementById('map-overlay');
+        const closeBtn = document.querySelector('.close-btn');
+
+        mapBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          mapOverlay.style.display = "flex";
+          });
+
+        closeBtn.addEventListener('click', () => {
+          mapOverlay.style.display = 'none';
+        });
+
+        mapOverlay.addEventListener('click', (e) => {
+          if (e.target === mapOverlay) {
+            mapOverlay.style.display = "none";
+          }
+        });
+const confettiCanvas = document.getElementById('confetti');
+  const ctx = confettiCanvas.getContext('2d');
+  confettiCanvas.width = window.innerWidth;
+  confettiCanvas.height = window.innerHeight;
+
+  let confettis = [];
+
+  function randomColor() {
+    const colors = ['#ff9999', '#ffcc99', '#ffff99', '#ccff99', '#99ccff', '#ffb3e6'];
+    return colors[Math.floor(Math.random() * colors.length)];
+  }
+
+  function createConfetti() {
+  const fromLeft = Math.random() < 0.5;
+  return {
+    x: fromLeft ? 0 : confettiCanvas.width,  
+    y: confettiCanvas.height,                
+    w: 8,
+    h: 14,
+    color: randomColor(),
+    speedX: fromLeft ? (Math.random() * 3 + 2) : -(Math.random() * 3 + 2), 
+    speedY: -(Math.random() * 5 + 4),  
+    angle: Math.random() * 360
+  };
+  }
+
+  function drawConfetti() {
+    ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+    confettis.forEach((c, i) => {
+      ctx.fillStyle = c.color;
+      ctx.save();
+      ctx.translate(c.x, c.y);
+      ctx.rotate(c.angle * Math.PI / 180);
+      ctx.fillRect(-c.w/2, -c.h/2, c.w, c.h);
+      ctx.restore();
+
+      c.x += c.speedX;
+      c.y += c.speedY;
+      c.speedY += 0.1; 
+      c.angle += 5;
+
+      if (c.y > confettiCanvas.height + 20) {
+        confettis.splice(i, 1);
+      }
+    });
+    requestAnimationFrame(drawConfetti);
+  }
+
+  function startConfetti() {
+    confettis = [];
+    for (let i = 0; i < 150; i++) {
+      confettis.push(createConfetti());
+    }
+    drawConfetti();
+
+    setTimeout(() => { confettis = []; }, 5000);
+  }
+
+  heart.addEventListener('click', () => {
+    if (envelopeWrapper.classList.contains('flap')) {
+      startConfetti();
+    }
+  });
+  </script>
+</body>
+</html>

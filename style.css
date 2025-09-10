@@ -1,0 +1,229 @@
+:root{
+  --primary: #fff;
+  --bg-color: #ffe6e6;
+  --bg-envelope-color: #ffd6e7;
+  --envelope-tab: #ffcccc;
+  --envelope-cover: #ff9999;
+  --shadow-color: rgba(0, 0, 0, 0.2);
+  --txt-color: #000000;
+  --heart-color: #cc0000;
+}
+body{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background: url("totnghiep.png") no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+.container {
+  height: 100vh;
+  display: grid;
+  place-items: center;
+}
+.container > .envelope-wrapper {
+  background: var(--bg-envelope-color);
+  box-shadow: 0 0 40px var(--shadow-color);
+}
+.envelope-wrapper > .envelope {
+  position: relative;
+  width: 420px;
+  height: 320px;
+}
+.envelope-wrapper > .envelope::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  border-top: 190px solid var(--envelope-tab);
+  border-right: 211px solid transparent;
+  border-left: 210px solid transparent;
+  transform-origin: top;
+  transition: all 0.5s ease-in-out 0.7s;
+}
+.envelope-wrapper > .envelope::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  width: 0px;
+  height: 0px;
+  border-top: 190px solid transparent;
+  border-right: 211px solid var(--envelope-cover);
+  border-bottom: 132px solid var(--envelope-cover);
+  border-left: 210px solid var(--envelope-cover);
+}
+.envelope > .letter {
+  position: absolute;
+  left: 50%;
+  bottom: 5px;
+  transform: translatex(-50%);
+  width: 70%;
+  max-width: 90%;
+  height: 82%;
+  background: var(--primary);
+  text-align: center;
+  transition: all 1s ease-in-out;
+  box-shadow: 0 0 5px var(--shadow-color);
+  padding: 25px 15px;
+  font-size: 14px;
+  z-index: 1;
+}
+.envelope > .letter > .text {
+  font-family: 'Times New Roman', Georgia, serif;;
+  color: var(--txt-color);
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.2
+}
+.envelope > .letter > .text strong {
+  display: block;
+  text-align: center;
+  font-size: 15px;     
+  margin-bottom: 10px;
+}
+.intro-text {
+  font-size: 12px;     
+  font-style: italic;  
+  line-height: 1.4;    
+}
+@media (max-width: 600px) {
+  .envelope-wrapper > .envelope {
+    width: 300px;
+    height: 230px;
+  }
+
+  .envelope > .letter {
+    font-size: 12px;
+    padding: 10px;
+  }
+
+  .map-btn {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+
+  .heart {
+    width: 12px;
+    height: 12px;
+  }
+
+  .heart:before, 
+  .heart:after {
+    width: 12px;
+    height: 12px;
+  }
+}
+.heart {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 15px;
+  height: 15px;
+  background: var(--heart-color);
+  z-index: 4;
+  transform: translate(-50%, -20%) rotate(45deg);
+  transition: transform 0.5s ease-in-out 1s;
+  box-shadow: 0 1px 6px var(--shadow-color);
+  cursor: pointer;
+}
+.heart:before, 
+.heart:after {
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-color: var(--heart-color);
+  border-radius: 50%;
+}
+.heart:before {
+  top: -7.5px;
+}
+.heart:after {
+  right: 7.5px;
+}
+.flap > .envelope:before {
+  transform: rotateX(180deg);
+  z-index: 0;
+}
+.flap > .envelope > .letter {
+  bottom: 190px;
+  transform: translatex(-50%);
+  transition-delay: 1s;
+  z-index: 1;
+}
+.flap > .heart {
+  transform: rotate(90deg);
+  transition-delay: 0.4s;
+}
+.map-btn {
+  display: inline-block;
+  margin-top: 2px;
+  padding: 4px 8px;
+  background: #cc0000;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 11px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.2);
+  transition: background 0.3s ease;
+}
+.map-btn:hover {
+  background: #a30000;
+}
+.map-overlay {
+  display: none; 
+  position: fixed;
+  z-index: 999; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  background-color: rgba(0,0,0,0.8);
+  justify-content: center;
+  align-items: center;
+}
+.map-img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+}
+#confetti {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; 
+  z-index: 9999; 
+}
+.map-btn-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px; 
+  margin-top: 6px;
+}
+
+.map-icon {
+  font-size: 18px;
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
